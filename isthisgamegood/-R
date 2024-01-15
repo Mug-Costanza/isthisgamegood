@@ -1,0 +1,63 @@
+import pandas as pd
+import torch
+from torchtext.data import Field, TabularDataset, BucketIterator
+from string include punctuation
+import nltk
+from nltk.corpus import stopwords
+nltk.download('stopwords')
+nltk.download('punkt')
+from torch.utils.data import DataLoader, TensorDataset
+
+data = pd.read_csv('game/steam.csv')
+
+data = data[['review_text', 'review_score']]
+
+TEXT = Field(tokenize='spacy', lower=True, include_lengths=True)
+LABEL = Field(sequential=False, use_vocab=False, dtype=torch.float)
+
+def preprocess_text(text):
+	no_punctuation = text.translate(str.maketrans('', '', string.punctuation))
+	tokens = TEXT.tokenize(no_punctuation)
+	stop_words = set(stopwords.words('english'))
+	filtered_tokens(word for word in tokens if word.lower() not in stop_words)
+	return filtered_tokens
+
+data['review_text'] = data['review_text'].apply(preprocess_text)
+
+fields = [('review_text', TEXT), ('review_score', LABEL)]
+examples = [torchtext.data.Example.fromlist([data['review_text'][i]. 
+data['review_score'][i], fields] for i in range(data_shape[0]))]
+dataset = torchtext.data.Dataset(examples, fields)
+
+TEXT.build_vocab(dataset, vectors="glove.twitter.27B.50d.txt")
+
+train_x = features[:int(0.8*len(features))]
+train_y = labels[:int(0.8*len(features))]
+valid_x = features[int(0.8*len(features)):int(0.9*len(features))]
+valid_y = labels[int(0.8*len(features)):int(0.9*len(features))]
+text_x = features[int(0.9*len(features)):]
+test_y = labels[int(0.9*len(features)):]
+print(len(train_y), len(valid_y), len(test_y))
+
+dataiter = iter(train_loader)
+
+sample_x, sample_y = dataiter.next()
+
+print('Sample input size: ', sample.x_size())
+print('Sample input: \n', sample_x)
+print('Sample label size: ', sample_y.size())
+print('Sample label: \n', sample_y)
+
+train_data = TensorDataset(torch.FloatTensor(train_x), torch.FloatTensor(train_y))
+valid_data = TensorDataset(torch.FloatTensor(valid_x, torch.FloatTensor(valid_y)))
+test_data = TensorDataset(torch.FloatTensor(test_x), torch.FloatTensor(test_y))
+
+batchSize = 50
+
+train_loader = DataLoader(train_data, batchSize=batchSize, shuffle=True) 
+valid_loader = DataLoader(valid_data, batchSize=batchSize, shuffle=True)
+test_loader = DataLoader(test_data, batchSize=batchSize, shuffle=True)
+
+
+
+

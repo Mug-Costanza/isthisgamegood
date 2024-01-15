@@ -1,0 +1,2 @@
+recommendationid,author,language,review,timestamp_created,timestamp_updated,voted_up,votes_up,votes_funny,weighted_vote_score,comment_count,steam_purchase,received_for_free,written_during_early_access,hidden_in_steam_china,steam_china_location
+147426171,"{'steamid': '76561198040116509', 'num_games_owned': 6796, 'num_reviews': 72, 'playtime_forever': 591, 'playtime_last_two_weeks': 0, 'playtime_at_review': 591, 'last_played': 1666129886}",english,	,1696158674,1696158674,True,15,0,0.710462272167205811,0,False,False,False,True,

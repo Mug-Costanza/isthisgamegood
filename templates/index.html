@@ -1,0 +1,144 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
+
+<style>
+/* Custom CSS for the search bar */
+.input-group {
+    margin-bottom: 20px;
+}
+
+.form-control {
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+    padding: 10px;
+}
+
+.btn-primary {
+    border-radius: 5px;
+    font-size: 16px;
+    padding: 10px 20px;
+}
+
+/* Bold text */
+.display-4,
+.form-control,
+.btn-primary {
+    font-weight: bold;
+}
+    
+.star {
+    color: gold;
+}
+    
+.icon {
+        font-size: 1.2em;
+        margin-right: 5px;
+}
+    
+/*
+.container-box {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 15px;
+    margin-bottom: 15px;
+}
+*/
+    
+.container {
+    justify-content: space-between;
+    /* Optional: Add any other styles for the container */
+}
+    
+.col-md-6 {
+    flex: 0 0 48%; /* Adjust as needed to leave space between items */
+}
+
+.container-box {
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 20px;
+    margin-bottom: 20px;
+    background-color: #f9f9f9;
+    transition: box-shadow 0.3s ease;
+    display: none;
+}
+
+h3 {
+    font-weight: bold;
+    margin-top: 0;
+}
+
+p {
+    color: #333;
+    line-height: 1.6;
+a}
+</style>
+
+<input type="text" class="form-control" placeholder="Enter game title" name="game_title" id="gameTitle">
+<form method="post" action="{% url 'index' %}">
+    {% csrf_token %}
+    {{ form }}
+    {% if form.errors %}
+        <ul class="errorlist">
+            {% for error in form.errors %}
+                <li>{{ error }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+    <button type="submit">Search</button>
+</form>
+
+{% if game_info %}
+    <h2>{{ game_info.title }}</h2>
+    {% for review in game_info.reviews %}
+        <p>{{ review.author }} says: {{ review.review }}</p>
+    {% endfor %}
+{% endif %}
+
+{% if error_message %}
+    <p>{{ error_message }}</p>
+{% endif %}
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        $('form').submit(function (e) {
+            e.preventDefault();
+            var gameTitle = $('#gameTitle').val();
+
+            $.ajax({
+                type: 'POST',
+                url: '{% url "index" %}',
+                data: {
+                    csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
+                    game_title: gameTitle
+                },
+                success: function (response) {
+                    // Check if game_info exists in the response
+                    if (response.game_info) {
+                        // Update the UI with the game information and reviews
+                        $('#gameInfo').html('<h2>' + response.game_info.title + '</h2>');
+                        $.each(response.game_info.reviews, function (index, review) {
+                            var authorInfo = review.author; // Access the author information
+                            $('#gameInfo').append('<p>' + authorInfo.steamid + ' says: ' + review.review + '</p>');
+                        });
+                    } else if (response.error_message) {
+                        // Display error message if there is an error
+                        $('#gameInfo').html('<p>' + response.error_message + '</p>');
+                    } else {
+                        // Handle other cases if needed
+                    }
+                },
+                error: function (error) {
+                    console.log(error);
+                }
+            });
+        });
+    });
+</script>
+
+{% endblock content %}
+

@@ -1,0 +1,50 @@
+{% load static %}
+
+<script>
+   
+   a{
+       color:inherit; text-decoration: inherit;
+   }
+   </script>
+
+<style>
+   #navbar {
+       position: fixed;
+       top: 0;
+       left: 0;
+       width: 100%;
+       z-index: 1000; /* Adjust this value as needed to layer it above other content */
+       background-color: #b3cde5; /* Adjust the background color as needed */
+       /* Add any other styles you want for the fixed navbar */
+   }
+</style>
+
+<style>
+  /* CSS for the footer */
+  .footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    background-color: #b3cde5;
+    font-weight: bold;
+    text-align: center;
+    padding: 15px 0;
+    margin-top: 100px;
+    margin-left: -8px;
+  }
+
+</style>
+
+<div style="">
+<div class="container gx-0">
+    <nav id="navbar" class="navbar navbar-expand-lg navbar-light navbar-custom" style="padding-left: 120px; padding-right: 120px;">
+        <div class="container-fluid" style="margin-top: 10px;">
+            <h2><a href="{% url 'index' %}" style="color: black; text-decoration: none; font-weight: bold;">isthisgamegood.com</a></h2>
+            </nav>
+    
+    <footer class="footer">
+      <p style="color: black;">© 2024 isthisgamegood.com All rights reserved. | <a href="{% url 'about' %}" style="color: blue;">About</a> | <a href="{% url 'privacy' %}" style="color: blue;">Privacy Policy</a></p>
+    </footer>
+    </div>
+    </div>
+    </div>

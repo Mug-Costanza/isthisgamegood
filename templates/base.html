@@ -1,0 +1,14 @@
+{% load static %}
+
+<head>
+  <title>isthisgamegood</title>
+  <link rel="icon" type="image/x-icon" href="{% static 'media/favicon.png' %}">
+</head>
+<body>
+  {% include 'navbar.html' %}
+  {% load static %}
+  <div id="content-container" style="margin-top:100px;">
+    {% block content %}
+  </div>
+</body>
+{% endblock content %}
